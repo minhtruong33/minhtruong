@@ -251,6 +251,25 @@ a:hover {
             
         </div>
 
+    <div class="slider-container">
+        
+        <img class="slides" src="images/text1.jpg" alt="Image 1">
+        <img class="slides" src="images/text2.jpg" alt="Image 2">
+        <img class="slides" src="images/text3.jpg" alt="Image 3">
+    
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+
+    <div class="dot-container">
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span> 
+    </div>
+
+    
+
         <div class="video-container">
             <video class="video-frame" controls>
                 <source src="videos/text.mp4" type="video/mp4">
