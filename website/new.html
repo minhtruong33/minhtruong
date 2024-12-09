@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBox</title>
+    <link rel="icon" href="images/portrait.jpg" type="image/x-icon">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: black;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+ 
+        .description-frame {
+            background-color: #E5E4E2;
+            border: 2px solid #dcdcdc;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px auto;
+            max-width: 80%;
+            font-size: 1em;
+            line-height: 1.5;
+            text-align: left;
+            
+        }
+
+        .blue-box-container {
+            text-align: center;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .project-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .project-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .description-frame-small {
+            background-color: #f0f0f0;
+            border: 2px solid #dcdcdc;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-align: left;
+            font-family: 'Playfair Display', serif;
+    
+        }
+
+        .button-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .view-image-btn {
+            background-color: #004494;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "Courier New", Courier, monospace;
+            transition: background-color 0.3s;
+        }
+
+        .view-image-btn:hover {
+            background-color: #001F3A;
+        }
+
+        .video-frame {
+            max-width: 100%;
+            height: auto;
+            border: 5px solid white;
+            border-radius: 6px;
+        }
+
+        /* Popup Modal Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 900px;
+            position: relative;
+            text-align: center;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: black;
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 1500;
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .slider-container {
+            position: relative;
+        }
+
+        .slides {
+            display: none;
+            width: 70%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 6px;
+            margin: 0 auto;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            color: white;
+            font-size: 1.5em;
+            padding: 8px 12px;
+            cursor: pointer;
+            z-index: 1500;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+        }
+
+        .prev {
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .next {
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .dot-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active, .dot:hover {
+            background-color: #717171;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: white;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>
+         The <span style="color: #0047AB;">Blue</span>Box Project
+        </h1>
+        
+        <div class="description-frame">
+            The <a href="https://bluebox.creighton.edu/" class="bluebox-link" target="_blank">BlueBox</a> is a compact digital library that provides preloaded educational content to support learning in remote areas. The materials are available offline and can be accessed for free by any device that connects to the BlueBox hotspot. Whether through a wireless or wired connection, communities, educators, and students can access the content using any device's web browser, ensuring access to valuable educational resources even in places with no internet connectivity. Below are small projects that I developed to enhance the Project.
+        </div>
+
+        <div class="blue-box-container">
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <h3>Shapes Quiz</h3>
+                    <div class="description-frame-small">
+                        <p>Shape Quiz module helps students learn about 2D and 3D shapes and their key characteristics through interactive questions. Dr. Ormond made final modifications to ensure alignment with other modules in the BlueBox project.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(1)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/shape_quiz.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <h3>Camera Stream</h3>
+                    <div class="description-frame-small">
+                        <p>The external camera setup, based on EbenKouao's GitHub source code, was significantly modified to enable live streaming via a Flask server. It allows students to participate in real-time activities like experiments or crafts.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(2)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/camera.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                        
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <h3>Internal Camera</h3>
+                    <div class="description-frame-small">
+                        <p>The Text Editor includes an internal webcam for recording and uploading videos offline, enabling educators and healthcare professionals to create multimedia-rich documents for lessons, presentations, or patient education in remote areas.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(5)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/internal_cam.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                       <!-- Project 4 -->
+                <div class="project-card">
+                    <h3>Text Editor</h3>
+                    <div class="description-frame-small">
+                        <p>This Text Editor enables users to create, upload, and edit files using the provided toolbar 
+                        and save files ending with .html. It also offers auto-save every time users make changes in the Text Editor box.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(4)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/text.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <h3>Code Editor</h3>
+                    <div class="description-frame-small">
+                        <p>This Code Editor enables users to create, upload, rename, delete, and save .html files, with auto-update and auto-save ensuring changes are preserved. It helps students learn basic coding concepts interactively.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(3)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/editor.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+         
+        
+                
+                
+                <!-- Project 6 -->
+                <div class="project-card">
+                    <h3>CCI Financial Trakcer</h3>
+                    <div class="description-frame-small">
+                        <p>This financial tracker, created for Chronic Care International (CCI) under the BlueBox Project, helps non-profit businesses manage transactions and analyze performance.</p>
+                    </div>
+                    <div class="button-container">
+                        <button class="view-image-btn" onclick="openPopup(6)">View Image</button>
+                    </div>
+                    <video class="video-frame" controls>
+                        <source src="videos/financial_tracker.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Minh Truong.</p>
+    </footer>
+
+    <!-- Popup Modals -->
+    
+    <!-- Popup 1 -->
+    <div id="popup1" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(1)">&times;</button>
+            <div class="slider-container">
+                 <img class="slides project1" src="images/shape.jpg" alt="Project 1 Image 1" style="width: 40%; height: auto; border-radius: 6px;">
+                <img class="slides project1" src="images/visual1.jpg" alt="Project 1 Image 2">
+                <img class="slides project1" src="images/visual2.jpg" alt="Project 1 Image 3">
+                <img class="slides project1" src="images/visual3.jpg" alt="Project 1 Image 4">
+                <button class="prev" onclick="changeSlide(-1, 1)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 1)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project1" onclick="currentSlide(1, 1)"></span>
+                <span class="dot project1" onclick="currentSlide(2, 1)"></span>
+                <span class="dot project1" onclick="currentSlide(3, 1)"></span>
+                <span class="dot project1" onclick="currentSlide(4, 1)"></span>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Popup 2 -->
+    
+    <div id="popup2" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(2)">&times;</button>
+            <div class="slider-container">
+                <img class="slides project2" src="images/camera.jpg" alt="Project 2 Image 1" style="width: 40%; height: auto; border-radius: 6px;">
+                 <img class="slides project2" src="images/bluebox.jpg" alt="Project 2 Image 2" style="width: 50%; height: auto; border-radius: 6px;">
+               <img class="slides project2" src="images/inside.jpg" alt="Project 2 Image 3" style="width: 40%; height: auto; border-radius: 6px;">
+                <button class="prev" onclick="changeSlide(-1, 2)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 2)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project2" onclick="currentSlide(1, 2)"></span>
+                <span class="dot project2" onclick="currentSlide(2, 2)"></span>
+                <span class="dot project2" onclick="currentSlide(3, 2)"></span>
+            </div>
+        </div>
+    </div>
+    
+     <!-- Popup 3 -->
+    
+     <div id="popup3" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(3)">&times;</button>
+            <div class="slider-container">
+                <img class="slides project3" src="images/editor1.jpg" alt="Project 3 Image 1">
+                <img class="slides project3" src="images/editor3.jpg" alt="Project 3 Image 3">
+                <img class="slides project3" src="images/editor5.jpg" alt="Project 3 Image 5">
+                <img class="slides project3" src="images/editor2.jpg" alt="Project 3 Image 2">
+                <img class="slides project3" src="images/editor4.jpg" alt="Project 3 Image 4">
+                <button class="prev" onclick="changeSlide(-1, 3)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 3)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project3" onclick="currentSlide(1, 3)"></span>
+                <span class="dot project3" onclick="currentSlide(2, 3)"></span>
+                <span class="dot project3" onclick="currentSlide(3, 3)"></span>
+                <span class="dot project3" onclick="currentSlide(4, 3)"></span>
+                <span class="dot project3" onclick="currentSlide(5, 3)"></span>
+            </div>
+        </div>
+    </div>
+    
+     <!-- Popup 4 -->
+    
+    <div id="popup4" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(4)">&times;</button>
+            <div class="slider-container">
+                <img class="slides project4" src="images/text1.jpg" alt="Project 4 Image 1">
+                <img class="slides project4" src="images/text2.jpg" alt="Project 4 Image 2">
+                <img class="slides project4" src="images/text3.jpg" alt="Project 4 Image 3">
+         
+                <button class="prev" onclick="changeSlide(-1, 4)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 4)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project4" onclick="currentSlide(1, 4)"></span>
+                <span class="dot project4" onclick="currentSlide(2, 4)"></span>
+                <span class="dot project4" onclick="currentSlide(3, 4)"></span>
+              
+            </div>
+        </div>
+    </div>
+    
+    
+       <!-- Popup 5 -->
+    
+    <div id="popup5" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(5)">&times;</button>
+            <div class="slider-container">
+                <img class="slides project5" src="images/internal.jpg" alt="Project 5 Image 1">
+             
+                <button class="prev" onclick="changeSlide(-1,5)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 5)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project3" onclick="currentSlide(1, 5)"></span>
+                
+            </div>
+        </div>
+    </div>
+    
+     <!-- Popup 6 -->
+    
+    <div id="popup6" class="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup(6)">&times;</button>
+            <div class="slider-container">
+                <img class="slides project6" src="images/tracker1.jpg" alt="Project 6 Image 1">
+                <img class="slides project6" src="images/tracker2.jpg" alt="Project 6 Image 2">
+                <img class="slides project6" src="images/tracker3.jpg" alt="Project 6 Image 3">
+                <img class="slides project6" src="images/tracker4.jpg" alt="Project 6 Image 4">
+                <img class="slides project6" src="images/tracker5.jpg" alt="Project 6 Image 5">
+                <img class="slides project6" src="images/tracker6.jpg" alt="Project 6 Image 6">
+                <img class="slides project6" src="images/tracker7.jpg" alt="Project 6 Image 7">
+                <img class="slides project6" src="images/tracker8.jpg" alt="Project 6 Image 8">
+                
+                
+                <button class="prev" onclick="changeSlide(-1, 6)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1, 6)">&#10095;</button>
+            </div>
+            <div class="dot-container">
+                <span class="dot project6" onclick="currentSlide(1, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(2, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(3, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(4, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(5, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(6, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(7, 6)"></span>
+                <span class="dot project6" onclick="currentSlide(8, 6)"></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+    
+
+    <script>
+        // Total number of 1s = number of projects or grids we have 
+        let slideIndexes = [1, 1, 1, 1, 1, 1];
+
+        function openPopup(projectId) {
+            document.getElementById('popup' + projectId).style.display = 'flex';
+            showSlides(1, projectId);
+        }
+
+        function closePopup(projectId) {
+            document.getElementById('popup' + projectId).style.display = 'none';
+        }
+
+        function changeSlide(n, projectId) {
+            let slides = document.querySelectorAll(`.slides.project${projectId}`);
+            let totalSlides = slides.length;
+            slideIndexes[projectId - 1] += n;
+
+            if (slideIndexes[projectId - 1] > totalSlides) slideIndexes[projectId - 1] = 1;
+            if (slideIndexes[projectId - 1] < 1) slideIndexes[projectId - 1] = totalSlides;
+
+            showSlides(slideIndexes[projectId - 1], projectId);
+        }
+
+        function currentSlide(n, projectId) {
+            showSlides(n, projectId);
+        }
+
+        function showSlides(n, projectId) {
+            let slides = document.querySelectorAll(`.slides.project${projectId}`);
+            let dots = document.querySelectorAll(`.dot.project${projectId}`);
+            slides.forEach(slide => (slide.style.display = 'none'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[n - 1].style.display = 'block';
+            dots[n - 1].classList.add('active');
+        }
+    </script>
+</body>
+</html>
