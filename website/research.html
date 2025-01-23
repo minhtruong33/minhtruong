@@ -20,15 +20,20 @@
         
          h1 {
              
-            color: #004494;
+             color: #0047AB;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.0em;
+             
             opacity: 0;
-            animation: slide-in 1s ease-out;
+            animation: fadeIn 3s forwards;
            
         }
-     
+            @keyframes fadeIn {
+        to {
+            opacity: 1;
+            }
+        }
 
         p {
             max-width: 1000px;
@@ -53,27 +58,19 @@
             
         }
         
-    
-          
-        @keyframes zoom-in {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
+        
+            @keyframes fadeIn {
+        to {
+            opacity: 1;
             }
         }
-
         
-   
+        
 
         .pdf-container {
             display: flex;
             justify-content: center;
             margin: 70px 0;
-            animation: zoom-in 0.8s ease-out;
         
         }
 
@@ -94,6 +91,15 @@
             left: 0;
         }
         
+        a {
+            color: black;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
