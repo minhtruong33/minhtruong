@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jay Internships</title>
+  <link rel="icon" href="images/portrait.jpg" type="image/x-icon">
+  <style>
+    :root {
+      --bg:#0a0a0a;       /* Black background */
+      --fg:#ffffff;       /* White text */
+      --muted:#cfcfcf;    /* Muted gray */
+      --accent:#90EE90;   /* Light green */
+      --accent-dark:#3ca63c;
+    }
+
+    body {
+      font-family: "Courier New", Courier, monospace;
+      background-color: var(--bg);
+      color: var(--fg);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+      position: relative;
+      background: rgba(10,10,10,0.9);
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(144,238,144,.3);
+      animation: slide-in 1s ease-out;
+    }
+
+    @keyframes slide-in {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(18px);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    .orb.o1 {
+      width: 220px; height: 220px;
+      background: radial-gradient(circle,var(--accent),transparent 70%);
+      top: 15%; left: 8%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .orb.o2 {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle,var(--accent-dark),transparent 70%);
+      bottom: 15%; right: 12%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) }
+      50% { transform: translateY(-18px) }
+      100% { transform: translateY(0) }
+    }
+
+    /* Description card */
+    .content-board {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(144,238,144,.35);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: left;
+      line-height: 1.6;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+      animation: zoom-in 0.8s ease-out;
+    }
+    @keyframes zoom-in {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .content-board p {
+      color: var(--muted);
+      font-size: 1em;
+    }
+
+    /* Slider */
+    .slider-container {
+      position: relative;
+      max-width: 900px;
+      margin: 40px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .slides {
+      display: none;
+      width: 100%;
+      height: auto; /* 👈 fits natural image aspect ratio */
+      border-radius: 12px;
+      animation: fade 1s;
+    }
+
+    @keyframes fade {
+      from { opacity: .4; }
+      to { opacity: 1; }
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      padding: 14px 18px;
+      margin-top: -22px;
+      color: var(--fg);
+      font-weight: bold;
+      font-size: 22px;
+      transition: 0.3s;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,0.6);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .next { right: 15px; }
+    .prev { left: 15px; }
+    .prev:hover, .next:hover {
+      background-color: var(--accent-dark);
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .dot-container {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .dot {
+      cursor: pointer;
+      height: 14px; width: 14px;
+      margin: 0 4px;
+      background-color: #666;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.4s ease, transform 0.2s;
+    }
+    .active, .dot:hover { 
+      background-color: var(--accent); 
+      transform: scale(1.2);
+    }
+
+    /* Video section */
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin: 50px 0;
+    }
+    .video-frame {
+      max-width: 900px;
+      width: 100%;
+      border-radius: 12px;
+      border: 2px solid rgba(144,238,144,.35);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-block;
+      margin: 20px auto 40px;
+      padding: 12px 24px;
+      background-color: var(--accent);
+      color: #000;
+      border-radius: 999px;
+      font-size: 1em;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color .3s ease, transform .2s ease;
+    }
+    .back-btn:hover {
+      background-color: var(--accent-dark);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 0.9em;
+      border-top: 1px solid rgba(144,238,144,0.25);
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <h1>Jay Internships</h1>
+  </header>
+
+  <main>
+    <div class="content-board">
+      <p><strong>Jay Internships</strong> was created for the Database Management Systems class. 
+      Our group designed the idea and database schema, while I was responsible for both the front-end 
+      and back-end implementation. The platform supports almost full functionality — user registration, login, 
+      inserting new data, and retrieving data.</p>
+    </div>
+
+    <!-- Image Slider -->
+    <div class="slider-container">
+      <img class="slides" src="images/db1.jpg" alt="Image 1">
+      <img class="slides" src="images/db2.jpg" alt="Image 2">
+      <img class="slides" src="images/db3.jpg" alt="Image 3">
+      <img class="slides" src="images/db4.jpg" alt="Image 4">
+      <img class="slides" src="images/db5.jpg" alt="Image 5">
+      <img class="slides" src="images/db6.jpg" alt="Image 6">
+      <img class="slides" src="images/db7.jpg" alt="Image 7">
+      <img class="slides" src="images/db8.jpg" alt="Image 8">
+
+      <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <div class="dot-container">
+      <span class="dot" onclick="currentSlide(1)"></span> 
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span> 
+      <span class="dot" onclick="currentSlide(4)"></span> 
+      <span class="dot" onclick="currentSlide(5)"></span> 
+      <span class="dot" onclick="currentSlide(6)"></span> 
+      <span class="dot" onclick="currentSlide(7)"></span> 
+      <span class="dot" onclick="currentSlide(8)"></span> 
+    </div>
+
+
+    <div style="text-align:center;">
+      <a href="project.html" class="back-btn">← Back to Projects</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="inner"> <span>© 2025 Minh Truong</span> | <span>Last updated: September 01, 2025 ✨</span> </div>
+  </footer>
+
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function changeSlide(n) { showSlides(slideIndex += n); }
+    function currentSlide(n) { showSlides(slideIndex = n); }
+
+    function showSlides(n) {
+      let slides = document.getElementsByClassName("slides");
+      let dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+    }
+  </script>
+
+</body>
+</html>

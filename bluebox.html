@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueBox Project</title>
+  <link rel="icon" href="images/portrait.jpg" type="image/x-icon">
+  <style>
+    :root {
+      --bg:#0a0a0a;        
+      --fg:#ffffff;        
+      --muted:#cfcfcf;     
+      --accent:#90EE90;    
+      --accent-dark:#3ca63c;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Courier New", Courier, monospace;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.6em;
+      margin-bottom: 20px;
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(144,238,144,0.25);
+    }
+
+    .description-frame {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(144,238,144,0.4);
+      padding: 18px;
+      border-radius: 10px;
+      margin: 20px auto 40px;
+      max-width: 90%;
+      font-size: 1em;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(144,238,144,0.35);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+      text-align: center;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 24px rgba(144,238,144,0.25);
+    }
+
+    .project-card h3 {
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .description-frame-small {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(144,238,144,0.3);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.9em;
+      text-align: left;
+      color: var(--muted);
+    }
+
+    .view-image-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: "Courier New", Courier, monospace;
+      transition: background-color 0.3s, transform .2s;
+      margin-bottom: 12px;
+    }
+    .view-image-btn:hover {
+      background: var(--accent-dark);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .video-frame {
+      max-width: 100%;
+      border: 3px solid rgba(144,238,144,0.3);
+      border-radius: 8px;
+    }
+
+    /* Popup Modal */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    .popup-content {
+      position: relative;
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      width: 85%;
+      max-width: 900px;
+      text-align: center;
+      border: 1px solid rgba(144,238,144,0.4);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 15px; right: 20px;
+      color: var(--accent);
+      font-size: 2em;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .slides {
+      display: none;
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 0 auto;
+      border: 2px solid rgba(144,238,144,0.3);
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      color: var(--accent);
+      font-size: 2em;
+      padding: 10px;
+      cursor: pointer;
+      background: rgba(0,0,0,0.6);
+      border-radius: 6px;
+      transform: translateY(-50%);
+    }
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    .dot-container { text-align: center; margin-top: 12px; }
+    .dot {
+      cursor: pointer;
+      height: 12px; width: 12px;
+      margin: 0 4px;
+      background: #666;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .active, .dot:hover { background: var(--accent); }
+    .back-btn {
+      display: inline-block;
+      margin: 40px auto;
+      padding: 12px 24px;
+      background-color: var(--accent);
+      color: #000;
+      border-radius: 999px;
+      font-size: 1em;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color .3s ease, transform .2s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(144,238,144,0.25);
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1>The BlueBox Project</h1>
+    <div class="description-frame">
+      The <a href="https://bluebox.creighton.edu/" target="_blank" style="color:var(--accent);text-decoration:none;">BlueBox</a> 
+      is a compact digital library that provides preloaded educational content to support learning in remote areas. 
+      Accessible offline by any device connected to the hotspot, it ensures communities and students can continue learning even without internet. 
+      Below are interactive modules I developed to enhance the BlueBox experience.
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Shapes Quiz</h3>
+        <div class="description-frame-small">
+          <p>Interactive module to learn 2D & 3D shapes through quizzes.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(1)">View Images</button>
+        <video class="video-frame" controls><source src="videos/shape_quiz.mp4"></video>
+      </div>
+
+      <div class="project-card">
+        <h3>Camera Stream</h3>
+        <div class="description-frame-small">
+          <p>Attached a separeted camera for real-time experiments and in-class activities.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(2)">View Images</button>
+        <video class="video-frame" controls><source src="videos/camera.mp4"></video>
+      </div>
+
+      <div class="project-card">
+        <h3>Internal Camera</h3>
+        <div class="description-frame-small">
+          <p>Webcam-enabled text editor for recording lessons offline.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(3)">View Images</button>
+        <video class="video-frame" controls><source src="videos/internal_cam.mp4"></video>
+      </div>
+
+      <div class="project-card">
+        <h3>Text Editor</h3>
+        <div class="description-frame-small">
+          <p>An offline text editor with auto-save for continuous offline works.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(4)">View Images</button>
+        <video class="video-frame" controls><source src="videos/text.mp4"></video>
+      </div>
+
+      <div class="project-card">
+        <h3>Code Editor</h3>
+        <div class="description-frame-small">
+          <p>Interactive coding practice tool with file management.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(5)">View Images</button>
+        <video class="video-frame" controls><source src="videos/editor.mp4"></video>
+      </div>
+
+      <div class="project-card">
+        <h3>CCI Financial Tracker</h3>
+        <div class="description-frame-small">
+          <p>Custom financial tracker to manage finances and performance for nonprofit business.</p>
+        </div>
+        <button class="view-image-btn" onclick="openPopup(6)">View Images</button>
+        <video class="video-frame" controls><source src="videos/financial_tracker.mp4"></video>
+      </div>
+    </div>
+  </main>
+  <div style="text-align:center;">
+    <a href="project.html" class="back-btn">← Back to Projects</a>
+  </div>
+  
+  <footer>
+    <div class="inner"> <span>© 2025 Minh Truong</span> | <span>Last updated: September 01, 2025 ✨</span> </div>
+  </footer>
+
+  <!-- Popups for each project -->
+  <div id="popup1" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(1)">&times;</button>
+      <img class="slides project1" src="images/shape.jpg">
+      <img class="slides project1" src="images/visual1.jpg">
+      <img class="slides project1" src="images/visual2.jpg">
+      <img class="slides project1" src="images/visual3.jpg">
+      <a class="prev" onclick="changeSlide(-1,1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,1)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project1" onclick="currentSlide(1,1)"></span>
+        <span class="dot project1" onclick="currentSlide(2,1)"></span>
+        <span class="dot project1" onclick="currentSlide(3,1)"></span>
+        <span class="dot project1" onclick="currentSlide(4,1)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup2" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(2)">&times;</button>
+      <img class="slides project2" src="images/camera.jpg">
+      <img class="slides project2" src="images/bluebox.jpg">
+      <img class="slides project2" src="images/inside.jpg">
+      <a class="prev" onclick="changeSlide(-1,2)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,2)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project2" onclick="currentSlide(1,2)"></span>
+        <span class="dot project2" onclick="currentSlide(2,2)"></span>
+        <span class="dot project2" onclick="currentSlide(3,2)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup3" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(3)">&times;</button>
+      <img class="slides project3" src="images/internal.jpg">
+      <a class="prev" onclick="changeSlide(-1,3)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,3)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project3" onclick="currentSlide(1,3)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup4" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(4)">&times;</button>
+      <img class="slides project4" src="images/text1.jpg">
+      <img class="slides project4" src="images/text2.jpg">
+      <img class="slides project4" src="images/text3.jpg">
+      <a class="prev" onclick="changeSlide(-1,4)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,4)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project4" onclick="currentSlide(1,4)"></span>
+        <span class="dot project4" onclick="currentSlide(2,4)"></span>
+        <span class="dot project4" onclick="currentSlide(3,4)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup5" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(5)">&times;</button>
+      <img class="slides project5" src="images/editor1.jpg">
+      <img class="slides project5" src="images/editor2.jpg">
+      <img class="slides project3" src="images/editor3.jpg">
+      <img class="slides project3" src="images/editor4.jpg">
+      <img class="slides project3" src="images/editor5.jpg"
+      >
+      <a class="prev" onclick="changeSlide(-1,5)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,5)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project5" onclick="currentSlide(1,5)"></span>
+        <span class="dot project5" onclick="currentSlide(2,5)"></span>
+        <span class="dot project3" onclick="currentSlide(3, 5)"></span>
+        <span class="dot project3" onclick="currentSlide(4, 5)"></span>
+        <span class="dot project3" onclick="currentSlide(5, 5)"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup6" class="popup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closePopup(6)">&times;</button>
+      <img class="slides project6" src="images/tracker1.jpg">
+      <img class="slides project6" src="images/tracker2.jpg">
+      <img class="slides project6" src="images/tracker3.jpg">
+      <img class="slides project6" src="images/tracker4.jpg">
+      <img class="slides project6" src="images/tracker5.jpg">
+      <img class="slides project6" src="images/tracker6.jpg">
+      <img class="slides project6" src="images/tracker7.jpg">
+      <a class="prev" onclick="changeSlide(-1,6)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1,6)">&#10095;</a>
+      <div class="dot-container">
+        <span class="dot project6" onclick="currentSlide(1,6)"></span>
+        <span class="dot project6" onclick="currentSlide(2,6)"></span>
+        <span class="dot project6" onclick="currentSlide(3,6)"></span>
+        <span class="dot project6" onclick="currentSlide(4, 6)"></span>
+        <span class="dot project6" onclick="currentSlide(5, 6)"></span>
+        <span class="dot project6" onclick="currentSlide(6, 6)"></span>
+        <span class="dot project6" onclick="currentSlide(7, 6)"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let slideIndexes = {1:1,2:1,3:1,4:1,5:1,6:1};
+
+    function openPopup(id){
+      document.getElementById("popup"+id).style.display="flex";
+      showSlides(slideIndexes[id], id);
+    }
+    function closePopup(id){
+      document.getElementById("popup"+id).style.display="none";
+    }
+    function changeSlide(n,id){
+      showSlides(slideIndexes[id]+=n, id);
+    }
+    function currentSlide(n,id){
+      showSlides(slideIndexes[id]=n, id);
+    }
+    function showSlides(n,id){
+      let slides=document.querySelectorAll(".slides.project"+id);
+      let dots=document.querySelectorAll(".dot.project"+id);
+      if(n>slides.length){slideIndexes[id]=1}
+      if(n<1){slideIndexes[id]=slides.length}
+      slides.forEach(s=>s.style.display="none");
+      dots.forEach(d=>d.classList.remove("active"));
+      slides[slideIndexes[id]-1].style.display="block";
+      dots[slideIndexes[id]-1].classList.add("active");
+    }
+  </script>
+</body>
+</html>

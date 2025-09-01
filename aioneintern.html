@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI ONE Internship</title>
+  <link rel="icon" href="images/portrait.jpg" type="image/x-icon">
+  <style>
+    :root {
+      --bg:#0a0a0a;        
+      --fg:#ffffff;        
+      --muted:#cfcfcf;     
+      --accent:#90EE90;    
+      --accent-dark:#3ca63c;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Courier New", Courier, monospace; /* global font */
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.6em;
+      margin-bottom: 20px;
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(144,238,144,0.25);
+      animation: fadeSlideIn 1s ease-out;
+    }
+
+    .description-frame {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(144,238,144,0.4);
+      padding: 18px;
+      border-radius: 10px;
+      margin: 20px auto 40px;
+      max-width: 90%;
+      font-size: 1em;
+      line-height: 1.6;
+      color: var(--muted);
+      animation: zoomIn 0.8s ease-out;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    .project-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(144,238,144,0.35);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      text-align: center;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 24px rgba(144,238,144,0.25);
+    }
+
+    .project-card h3 {
+      color: var(--accent);
+      margin-bottom: 12px;
+      font-size: 1.3em;
+    }
+
+    .description-frame-small {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(144,238,144,0.3);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 0.9em;
+      text-align: left;
+      color: var(--muted);
+    }
+
+    .view-image-btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 8px 15px;
+      font-size: 0.95em;
+      font-family: "Courier New", Courier, monospace; /* ✅ force same font */
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform .2s;
+      margin-bottom: 12px;
+    }
+
+    .view-image-btn:hover {
+      background: var(--accent-dark);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin: 40px auto;
+      padding: 12px 24px;
+      background-color: var(--accent);
+      color: #000;
+      border-radius: 999px;
+      font-size: 1em;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color .3s ease, transform .2s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(144,238,144,0.25);
+      color: var(--muted);
+    }
+
+    @keyframes fadeSlideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <h1>AI.ONE Internship</h1>
+
+    <div class="description-frame">
+      I am currently doing an internship at <strong>AI ONE</strong>, a startup company that leverages AI to 
+      streamline business processes and optimize operations.  
+      I will upload my projects here once I finish them.
+    </div>
+
+    <!-- <div class="projects-grid"> -->
+      <!-- Placeholder Project 1 -->
+      <!-- <div class="project-card"> -->
+        <!-- <h3>Upcoming Project 🚀</h3> -->
+         <!-- <div class="description-frame-small"> -->
+           <!-- <p>A placeholder for my first AI ONE project. Stay tuned — I’ll be adding details soon!</p> -->
+         <!-- </div> -->
+         <!-- <button class="view-image-btn">Coming Soon</button> -->
+       <!-- </div> -->
+
+      <!-- Placeholder Project 2 -->
+      <!--  <div class="project-card"> -->
+         <!-- <h3>Next Idea 💡</h3> -->
+        <!--  <div class="description-frame-small"> -->
+          <!--  <p>This space is reserved for an automation project I’m working on at AI ONE. Updates soon!</p> -->
+         <!-- </div> -->
+        <!--  <button class="view-image-btn">Coming Soon</button> -->
+      <!--  </div> -->
+    </div>
+  </main>
+
+  <div style="text-align:center;">
+    <a href="project.html" class="back-btn">← Back to Projects</a>
+  </div>
+
+  <footer>
+    <div class="inner"> <span>© 2025 Minh Truong</span> | <span>Last updated: September 01, 2025 ✨</span> </div>
+  </footer>
+
+</body>
+</html>

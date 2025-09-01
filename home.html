@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minh Truong — Home</title>
+  <link rel="icon" href="images/portrait.jpg" type="image/x-icon" />
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --fg:#ffffff;
+      --muted:#cfcfcf;      
+      --accent:#90EE90;
+      --accent-weak:#baf7ba;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:'Courier New', Courier, monospace;overflow-x:hidden}
+
+    /* ===== Sticky nav ===== */
+    header.site{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(4px);
+      background:rgba(10,10,10,.85); border-bottom:1px solid rgba(144,238,144,.25);
+    }
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{font-weight:800;letter-spacing:.08em;color:var(--accent);text-decoration:none;font-size:1.3rem}
+    nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 12px;border-radius:10px;font-size:1rem}
+    nav a:hover, nav a.active{background:rgba(144,238,144,.12);border:1px solid rgba(144,238,144,.35)}
+
+    .menu-btn{display:none}
+    @media (max-width:760px){
+      nav{display:none}
+      .menu-btn{display:inline-block;border:1px solid rgba(144,238,144,.5);border-radius:10px;padding:6px 10px;color:var(--accent);background:transparent}
+      .nav.open nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+      header.site .nav{flex-direction:column;align-items:flex-start}
+    }
+
+    /* ===== Hero ===== */
+    .hero{position:relative; max-width:1000px; margin:0 auto; padding:60px 20px; display:grid; place-items:center; text-align:center}
+    .orb{position:absolute; border-radius:50%; filter:blur(12px); opacity:.18; pointer-events:none}
+    .orb.o1{width:180px; height:180px; background:radial-gradient(circle,var(--accent),transparent 60%); left:5%; top:12%; animation: float 8s ease-in-out infinite}
+    .orb.o2{width:140px; height:140px; background:radial-gradient(circle,var(--accent-weak),transparent 60%); right:8%; bottom:10%; animation: float 10s ease-in-out infinite reverse}
+
+    .portrait{width:160px; height:160px; border-radius:50%; object-fit:cover; border:2px solid rgba(144,238,144,.6); box-shadow:0 0 28px rgba(144,238,144,.28)}
+    h1{margin:16px 0 4px; font-size:clamp(26px,5vw,40px); color:var(--accent); text-shadow:0 0 18px rgba(144,238,144,.25)}
+    .tagline{margin:4px 0 16px; font-size:1rem; color:#b9f1b9; font-style:italic}
+    .lead{margin:0 auto 16px; max-width:70ch; color:var(--muted); font-size:clamp(15px,2.4vw,18px); line-height:1.6}
+    .tags{margin-top:8px; color:var(--accent-weak); font-size:1rem}
+
+    .chips{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:20px}
+    .chip{position:relative; display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border:1px solid rgba(144,238,144,.35); border-radius:999px; background:rgba(255,255,255,.03); color:var(--fg); text-decoration:none; font-weight:700; letter-spacing:.02em; transition:transform .2s ease, background .2s ease, box-shadow .2s ease}
+    .chip:hover{transform:translateY(-3px); background:rgba(144,238,144,.12); box-shadow:0 6px 18px rgba(144,238,144,.15)}
+    .chip .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px rgba(144,238,144,.6)}
+
+    .type{display:inline-block; margin-top:14px; color:#b9f1b9; font-size:1rem; min-height:1.4em; white-space:nowrap; overflow:hidden; border-right:2px solid #b9f1b9; width:0ch;}
+
+    /* ===== About Me ===== */
+    .about{max-width:900px; margin:40px auto; padding:20px; text-align:left}
+    .about h2{font-size:1.4rem; color:var(--accent); margin-bottom:10px}
+    .about p{color:var(--muted); line-height:1.7; margin-bottom:14px; font-size:1rem}
+
+    footer{border-top:1px solid rgba(144,238,144,.25); margin-top:40px}
+    footer .inner{max-width:1100px; margin:0 auto; padding:16px 20px; color:#bdbdbd; font-size:14px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+
+    .contact{max-width:1100px;margin:0 auto;padding:28px 20px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .card{border:1px solid rgba(144,238,144,.25);border-radius:14px;padding:16px;background:rgba(255,255,255,.02)}
+    .card h3{margin:0 0 6px;font-size:1.05rem;color:var(--fg)}
+    .card p{margin:0 0 10px;color:var(--muted);font-size:0.9rem}
+    .card a{color:var(--accent);text-decoration:none}
+    .card a:hover{text-decoration:underline}
+
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+    @keyframes typing{from{width:0ch} to{width:var(--nch, 30ch)}}
+    @keyframes caret{50%{border-color:transparent}}
+  </style>
+  <script>
+    function toggleMenu(){
+      const wrap=document.querySelector('.nav');
+      wrap.classList.toggle('open');
+    }
+    const messages=[
+      'Home: Getting to know me →',
+      'Projects: See my past projects →',
+      'Publications: See my past publications →',
+      'Me: My life journey →',
+      'Contact: Resume & other contact information →'
+    ];
+    let idx=0;
+    function cycleType(){
+      const el=document.querySelector('.type');
+      if(!el) return;
+      const msg=messages[idx % messages.length];
+      el.textContent = msg;
+      el.style.setProperty('--nch', (msg.length + 1) + 'ch');
+      el.style.animation='none';
+      void el.offsetWidth;
+      el.style.animation='typing 2.8s steps(30, end) forwards, caret 700ms step-end infinite';
+      idx++;
+    }
+    document.addEventListener('DOMContentLoaded',()=>{
+      cycleType();
+      setInterval(cycleType, 3600);
+    });
+  </script>
+</head>
+<body>
+  <header class="site">
+    <div class="nav">
+      <a class="brand" href="#home">MINH TRUONG</a>
+      <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+      <nav aria-label="Primary">
+        <a href="#home" class="active">Home</a>
+        <a href="project.html">Projects</a>
+        <a href="publication.html">Publications</a>
+        <a href="me.html">Me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+
+    <img class="portrait" src="images/portrait.jpg" alt="Portrait of Minh Truong" />
+    <h2>Hello, I’m Minh</h2>
+    <p class="tagline"> I'm interested in researching how technology, accessibility & design meet to empower people 💡</p>
+    <div class="tags">HCI · Accessibility · Design · Visualization  · Inclusivity</div>
+
+    <div class="chips">
+      <a class="chip" href="projects.html"><span class="dot"></span> Projects</a>
+      <a class="chip" href="publication.html"><span class="dot"></span> Publications</a>
+      <a class="chip" href="me.html"><span class="dot"></span> Me</a>
+      <a class="chip" href="contact.html"><span class="dot"></span> Contact</a>
+    </div>
+
+    <div class="type"></div>
+  </section>
+
+  <!-- About Me -->
+  <section class="about" id="about">
+    <h2>About Me</h2>
+    <p>Hello! I am Minh, a graduate from Creighton University with a Bachelor's degree in Business Intelligence & Analytics, passionate about using technology to build solutions that drive meaningful impact for communities and society.</p>
+    <p>I love to learn about emerging technogies including blockchain, AI, and security & privacy. I am fluent in both Vietnamese and English and excited to connect with others while learning about new things.</p>
+    <p>Outside of academia, I enjoy weightlifting, practicing mixed martial arts, traveling to new places, and experiencing different cultures.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="cards">
+      <div class="card"><h3>Resume</h3><p><a href="resume.pdf" target="_blank">Open resume →</a></p></div>
+      <div class="card"><h3>LinkedIn</h3><p><a href="https://www.linkedin.com/in/minh-truong-7a7419138/" target="_blank">Connect on LinkedIn →</a></p></div>
+      <div class="card"><h3>Email</h3><p><a href="mailto:minhtruong@creighton.edu">minhtruong@creighton.edu</a></p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="inner"> <span>© 2025 Minh Truong</span> <span>Last updated: September 01, 2025 ✨</span> </div>
+  </footer>
+</body>
+</html>

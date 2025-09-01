@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Minh Truong</title>
+  <link rel="icon" href="../website/images/portrait.jpg" type="image/x-icon">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --fg:#ffffff;
+      --muted:#cfcfcf;
+      --accent:#90EE90;
+      --accent-dark:#3ca63c;
+    }
+    body{
+      margin:0;
+      font-family:"Courier New", Courier, monospace;
+      background:var(--bg);
+      color:var(--fg);
+      overflow-x:hidden;
+    }
+
+    /* ===== Nav ===== */
+    header.site{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(4px);
+      background:rgba(10,10,10,.85); border-bottom:1px solid rgba(144,238,144,.25);
+    }
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{font-weight:800;letter-spacing:.08em;color:var(--accent);text-decoration:none;font-size:1.3rem}
+    nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 12px;border-radius:10px;font-size:1rem}
+    nav a:hover, nav a.active{background:rgba(144,238,144,.12);border:1px solid rgba(144,238,144,.35)}
+    .menu-btn{display:none}
+    @media (max-width:760px){
+      nav{display:none}
+      .menu-btn{display:inline-block;border:1px solid rgba(144,238,144,.5);border-radius:10px;padding:6px 10px;color:var(--accent);background:transparent}
+      .nav.open nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+      header.site .nav{flex-direction:column;align-items:flex-start}
+    }
+
+    /* ===== Hero ===== */
+    .hero{
+      text-align:center;
+      padding:60px 20px 30px;
+      max-width:900px;
+      margin:0 auto;
+    }
+    .hero h1{
+      font-size:2.6em;
+      color:var(--accent);
+      text-shadow:0 0 18px rgba(144,238,144,.25);
+      margin-bottom:14px;
+    }
+    .hero p{
+      font-size:1.05rem;
+      color:var(--muted);
+      max-width:700px;
+      margin:0 auto;
+      line-height:1.6;
+    }
+
+    /* ===== Contact Grid ===== */
+    .contact-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:28px;
+      max-width:900px;
+      margin:50px auto;
+      padding:0 20px;
+    }
+    .card{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(144,238,144,0.35);
+      border-radius:16px;
+      padding:30px;
+      text-align:center;
+      box-shadow:0 6px 14px rgba(0,0,0,0.6);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover{
+      transform:translateY(-6px) scale(1.02);
+      border-color:var(--accent);
+      box-shadow:0 10px 24px rgba(144,238,144,0.25);
+    }
+    .card .icon{
+      font-size:2.5rem;
+      margin-bottom:12px;
+      display:block;
+      color:var(--accent);
+    }
+    .card h3{
+      font-size:1.3rem;
+      color:var(--accent);
+      margin-bottom:12px;
+    }
+    .card p{
+      font-size:0.95rem;
+      color:var(--muted);
+      margin-bottom:20px;
+    }
+    .card a{
+      display:inline-block;
+      padding:10px 18px;
+      background-color:var(--accent);
+      color:#000;
+      border-radius:999px;
+      font-size:0.95rem;
+      font-weight:bold;
+      text-decoration:none;
+      transition:background-color .3s ease, transform .2s ease;
+    }
+    .card a:hover{
+      background-color:var(--accent-dark);
+      color:#fff;
+      transform:scale(1.05);
+    }
+
+    footer{
+      border-top:1px solid rgba(144,238,144,.25);
+      margin-top:60px;
+    }
+    footer .inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:16px 20px;
+      color:#bdbdbd;
+      font-size:14px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+  <script>
+    function toggleMenu(){
+      const wrap=document.querySelector('.nav');
+      wrap.classList.toggle('open');
+    }
+  </script>
+</head>
+<body>
+  <!-- Nav -->
+  <header class="site">
+    <div class="nav">
+      <a class="brand" href="home.html">MINH TRUONG</a>
+      <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+      <nav aria-label="Primary">
+        <a href="home.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="publication.html">Publications</a>
+        <a href="me.html">Me</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Let’s Connect</h1>
+    <p>
+      Here are the best ways to reach me, whether it’s to check out my resume, connect on LinkedIn, or simply send me an email.  
+      I’d love to hear from you ✨
+    </p>
+  </section>
+
+  <!-- Contact Grid -->
+  <main>
+    <div class="contact-grid">
+      <!-- Resume -->
+      <div class="card">
+        <i class="fa-solid fa-file-lines icon"></i>
+        <h3>Resume</h3>
+        <p>Download or view my latest resume here.</p>
+        <a href="resume.pdf" target="_blank">View Resume →</a>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="card">
+        <i class="fa-brands fa-linkedin icon"></i>
+        <h3>LinkedIn</h3>
+        <p>Let’s connect on LinkedIn.</p>
+        <a href="https://www.linkedin.com/in/minh-truong33" target="_blank">Visit Profile →</a>
+      </div>
+
+      <!-- Email -->
+      <div class="card">
+        <i class="fa-solid fa-envelope icon"></i>
+        <h3>Email</h3>
+        <p> Drop me an email anytime.</p>
+        <a href="mailto:minhtruong@example.com">Send Email →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="inner">
+      <span>© 2025 Minh Truong</span>
+      <span>Last updated: September 01, 2025 ✨</span>
+    </div>
+  </footer>
+</body>
+</html>

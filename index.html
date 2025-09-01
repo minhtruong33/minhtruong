@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minh Truong — Welcome</title>
+  <link rel="icon" href="images/portrait.jpg" type="image/x-icon" />
+  <style>
+    :root{
+      --bg: #0a0a0a;           
+      --fg: #ffffff;           
+      --accent: #90EE90;       
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background:var(--bg); color:var(--fg);
+      font-family: 'Courier New', Courier, monospace;
+      overflow:hidden;
+    }
+
+    .wrap{position:relative; height:100%; display:grid; place-items:center; text-align:center;}
+
+    .title{
+      font-size:min(14vw,110px); font-weight:800; margin:0;
+      color:var(--accent);
+      text-shadow: 0 0 22px rgba(144,238,144,.4);
+      opacity:0;
+      animation: fadeInUp 2s ease forwards;
+    }
+    .subtitle{
+      font-size:clamp(20px,3.2vw,32px); color:#ddd; margin-top:20px;
+      opacity:0;
+      animation: fadeInUp 2s ease forwards;
+      animation-delay: 1.5s;
+    }
+
+    .enter-btn{
+      margin-top:35px;
+      padding:14px 32px;
+      font-size:20px;
+      font-weight:600;
+      border:2px solid var(--accent);
+      background:transparent;
+      color:var(--accent);
+      border-radius:10px;
+      cursor:pointer;
+      transition:all .3s ease;
+      opacity:0;
+      animation: fadeInUp 2s ease forwards;
+      animation-delay: 2.5s;
+    }
+    .enter-btn:hover{
+      background:var(--accent);
+      color:var(--bg);
+      box-shadow:0 0 20px rgba(144,238,144,.5);
+    }
+
+    /* Running marquee */
+    .marquee{
+      position:fixed; left:0; right:0; height:65px; overflow:hidden; white-space:nowrap;
+      display:flex; align-items:center; gap:22px;
+      background:rgba(144,238,144,0.05);
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .marquee.top{ top:20px }
+    .marquee.bottom{ bottom:20px }
+
+    .track{ display:inline-block; animation: scroll 20s linear infinite; }
+    .marquee.rev .track{ animation-direction: reverse; }
+
+    .tag{
+      font-weight:800; text-transform:none; letter-spacing:.03em;
+      font-size: clamp(18px, 3vw, 28px);
+      color: var(--accent);
+      margin:0 18px;
+    }
+
+    @keyframes scroll{ from{ transform: translateX(0) } to{ transform: translateX(-50%) } }
+    @keyframes fadeInUp{ from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+  </style>
+</head>
+<body>
+
+  <div class="marquee top">
+    <div class="track">
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+    </div>
+    <div class="track" aria-hidden="true">
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+      <span class="tag">Hello · I am Minh.</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <section class="center">
+      <h1 class="title">MINH TRUONG</h1>
+      <p class="subtitle">I am an achiever, explorer and a learner</p>
+      <a href="home.html"><button class="enter-btn">Let’s Explore</button></a>
+    </section>
+  </main>
+
+  <div class="marquee bottom rev">
+    <div class="track">
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+    </div>
+    <div class="track" aria-hidden="true">
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+      <span class="tag">Welcome to my page.</span>
+    </div>
+  </div>
+
+</body>
+</html>
