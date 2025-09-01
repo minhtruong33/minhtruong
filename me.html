@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Me — Minh Truong</title>
+  <link rel="icon" href="../website/images/portrait.jpg" type="image/x-icon">
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --fg:#ffffff;
+      --muted:#cfcfcf;
+      --accent:#90EE90;
+      --accent-dark:#3ca63c;
+    }
+    body{
+      margin:0;
+      font-family:"Courier New", Courier, monospace;
+      background:var(--bg);
+      color:var(--fg);
+      overflow-x:hidden;
+    }
+
+    /* ===== Nav ===== */
+    header.site{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(4px);
+      background:rgba(10,10,10,.85); border-bottom:1px solid rgba(144,238,144,.25);
+    }
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{font-weight:800;letter-spacing:.08em;color:var(--accent);text-decoration:none;font-size:1.3rem}
+    nav a{color:var(--fg);text-decoration:none;margin:0 10px;padding:6px 12px;border-radius:10px;font-size:1rem}
+    nav a:hover, nav a.active{background:rgba(144,238,144,.12);border:1px solid rgba(144,238,144,.35)}
+    .menu-btn{display:none}
+    @media (max-width:760px){
+      nav{display:none}
+      .menu-btn{display:inline-block;border:1px solid rgba(144,238,144,.5);border-radius:10px;padding:6px 10px;color:var(--accent);background:transparent}
+      .nav.open nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+      header.site .nav{flex-direction:column;align-items:flex-start}
+    }
+
+    /* ===== Hero ===== */
+    .hero{
+      text-align:center;
+      padding:60px 20px 30px;
+      max-width:900px;
+      margin:0 auto;
+    }
+    .hero h1{
+      font-size:2.6em;
+      color:var(--accent);
+      text-shadow:0 0 18px rgba(144,238,144,.25);
+      margin-bottom:14px;
+    }
+    .hero p{
+      font-size:1.05rem;
+      color:var(--muted);
+      max-width:700px;
+      margin:0 auto;
+      line-height:1.6;
+    }
+
+    /* ===== Timeline ===== */
+    .timeline{
+      position:relative;
+      max-width:900px;
+      margin:60px auto;
+      padding:0 20px;
+    }
+    .timeline::after{
+      content:'';
+      position:absolute;
+      width:3px;
+      background:var(--accent);
+      top:0;
+      bottom:0;
+      left:50%;
+      margin-left:-1.5px;
+    }
+    .entry{
+      padding:20px 30px;
+      position:relative;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(144,238,144,0.25);
+      border-radius:14px;
+      width:42%;
+      box-shadow:0 6px 14px rgba(0,0,0,0.6);
+      margin:20px 0;
+      text-align:center;
+    }
+    .entry h3{
+      margin-top:0;
+      color:var(--accent);
+      font-size:1.2rem;
+    }
+    .entry p{
+      font-size:0.95rem;
+      color:var(--muted);
+    }
+    .entry.left{left:0}
+    .entry.right{left:58%}
+    .entry::before{
+      content:"";
+      position:absolute;
+      top:22px;
+      width:18px; height:18px;
+      border-radius:50%;
+      background:var(--accent);
+      border:3px solid var(--bg);
+      z-index:1;
+    }
+    .entry.left::before{right:-11px}
+    .entry.right::before{left:-11px}
+
+    /* ===== Circle images ===== */
+    .photo{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      object-fit:cover;
+      margin:10px auto;
+      border:3px solid rgba(144,238,144,.4);
+      box-shadow:0 4px 10px rgba(0,0,0,.4);
+    }
+
+    /* ===== Multiple photo grid ===== */
+    .photo-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(90px, 1fr));
+      gap:12px;
+      margin-top:14px;
+      justify-items:center;
+    }
+    .photo-grid img{
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid rgba(144,238,144,.4);
+      box-shadow:0 2px 6px rgba(0,0,0,.4);
+    }
+
+    @media (max-width:760px){
+      .timeline::after{left:20px}
+      .entry{width:100%; left:0!important; padding-left:50px}
+      .entry::before{left:20px}
+    }
+
+    footer{
+      border-top:1px solid rgba(144,238,144,.25);
+      margin-top:60px;
+    }
+    footer .inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:16px 20px;
+      color:#bdbdbd;
+      font-size:14px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  </style>
+  <script>
+    function toggleMenu(){
+      const wrap=document.querySelector('.nav');
+      wrap.classList.toggle('open');
+    }
+  </script>
+</head>
+<body>
+  <!-- Nav -->
+  <header class="site">
+    <div class="nav">
+      <a class="brand" href="home.html">MINH TRUONG</a>
+      <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+      <nav aria-label="Primary">
+        <a href="home.html">Home</a>
+        <a href="project.html">Projects</a>
+        <a href="publication.html">Publications</a>
+        <a href="me.html" class="active">Me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>More About Me</h1>
+    <p>
+        I am originally from Dong Ha, Quang Tri, a small province in central Vietnam. 
+        I later moved to Da Nang for boarding high school, and 
+        in 2021 came to the United States to pursue my undergraduate studies at Creighton University. 
+        I enjoy exploring new ideas, traveling, lifting weights, and practicing martial arts. 
+        I look forward to updating this section as I continue to discover how my life jourrney unfolds.
+    </p>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline">
+    <div class="entry left">
+      <h3>3 Years Old</h3>
+      <p>This is Minh at 3 years old 🌱</p>
+        <img src="images/3year.jpg" alt="Minh at 3 years old" class="photo">
+    </div>
+
+    <div class="entry right">
+      <h3>Elementary School</h3>
+      <p>This is Minh during elementary era ✏️</p>
+        <img src="images/primary.jpg" alt="Minh in elementary school" class = "photo">
+    </div>
+
+    <div class="entry left">
+      <h3>Secondary School</h3>
+      <p>This is Minh during middle school adventures 🚀</p>
+      <img src="images/middle.jpg" alt="Minh during secondary school" class="photo">
+    </div>
+
+    <div class="entry right">
+      <h3>High School</h3>
+      <p>This is Minh during boarding high school era 🎒</p>
+     
+        <img src="images/highschool1.jpg" alt="Minh at high school" class ="photo">
+        <img src="images/highschool2.jpg" alt="Minh with friends at high school" class = "photo">
+      
+    </div>
+
+    <div class="entry left">
+      <h3>Came to the States</h3>
+      <p>2021 — moved to Omaha to study ✈️. This was my first time seeing snow!</p>
+      <img src="images/omaha.jpg" alt="Minh arriving in the States" class="photo">
+    </div>
+
+    <div class="entry right">
+      <h3>22nd Birthday</h3>
+      <p>Celebrating my 22 with loved ones 🎂</p>
+      <img src="images/22.jpg" alt="Minh's 22nd birthday" class="photo">
+    </div>
+
+    <div class="entry left">
+      <h3>Minh & Ma</h3>
+      <p>Me and my "Ma" in the States💙. Couldn't have asked for a better bonus mom.</p>
+        <img src="images/ma.jpg" alt="Minh and Ma" class = "photo">
+    </div>
+
+    <div class="entry right">
+      <h3>Honor Societies</h3>
+      <p>Inducted into Alpha Sigma Nu & Beta Gamma Sigma🏅</p>
+      <img src="images/alpha.jpg" alt="Alpha Sigma Nu" class="photo">
+      <img src="images/beta.jpg" alt="Beta Gamma Sigma" class = "photo">
+    </div>
+
+    <div class="entry left">
+      <h3>Undergrad Graduation</h3>
+      <p>Proudly graduated from Creighton University with a Bachelor’s degree in BIA, summa cum laude. 🎓</p>
+        <img src="images/grad1.jpg" alt="Minh's graduation" class = "photo">
+        <img src="images/grad2.jpg" alt="Graduation celebration" class = "photo">
+    </div>
+
+    <div class="entry right">
+        <h3>Wonder what's next?</h3>
+        <p>I will tell you when I have the answers!</p>
+        <img src="images/next.jpg" alt="Alpha Sigma Nu" class="photo">
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="inner">
+      <span>© 2025 Minh Truong</span>
+      <span>Last updated: September 01, 2025 ✨</span>
+    </div>
+  </footer>
+</body>
+</html>
