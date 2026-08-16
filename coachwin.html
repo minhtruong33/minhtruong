@@ -115,6 +115,8 @@
       text-align: center;
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
       box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
     }
 
     .project-card:hover {
@@ -138,7 +140,12 @@
       font-size: 0.9em;
       color: var(--muted);
       text-align: left;
+      /* Absorb any leftover height so both cards line their buttons and videos up */
+      flex: 1 0 auto;
+      display: flex;
+      align-items: center;
     }
+    .description-frame-small p { margin: 0; }
 
     .view-image-btn {
       background: var(--accent);
@@ -293,8 +300,8 @@
       <div class="project-card">
         <h3>GTM Engine</h3>
         <div class="description-frame-small">
-          <p>The Coach.Win go-to-market engine. Scheduled AI agents qualify prospects, track competitors,
-          surface target accounts, and draft content, all running on your own SharePoint.</p>
+          <p>The Coach.Win go-to-market engine. Scheduled AI agents qualify prospects, track competitors, and draft
+          content, all running on your own SharePoint.</p>
         </div>
         <button class="view-image-btn" onclick="openPopup(1)">View Images</button>
         <video class="video-frame" controls>
@@ -306,8 +313,8 @@
       <div class="project-card">
         <h3>Value Compass</h3>
         <div class="description-frame-small">
-          <p>A web app that links corporate initiatives to the value drivers behind them. Users enter their initiatives
-          and pain points, then get an AI-driven report on strategic alignment and what an engagement could save.</p>
+          <p>A web app linking corporate initiatives to their value drivers. Users enter initiatives and pain points,
+          then get an AI-driven report on strategic alignment.</p>
         </div>
         <button class="view-image-btn" onclick="openPopup(2)">View Images</button>
         <video class="video-frame" controls>
