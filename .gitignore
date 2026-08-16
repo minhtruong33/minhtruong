@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+**/.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Saved AI chat exports / scratch pages (these can embed session tokens)
+*chat*.html
+*conversation*.html
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
