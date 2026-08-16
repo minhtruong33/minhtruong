@@ -7,119 +7,261 @@
   <link rel="icon" href="images/portrait.jpg" type="image/x-icon" />
   <style>
     :root{
-      --bg: #0a0a0a;           
-      --fg: #ffffff;           
-      --accent: #90EE90;       
+      --bg:#0a0a0a;
+      --fg:#ffffff;
+      --muted:#cfcfcf;
+      --accent:#90EE90;
+      --accent-weak:#baf7ba;
+      --accent-dark:#3ca63c;
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
     body{
       background:var(--bg); color:var(--fg);
-      font-family: 'Courier New', Courier, monospace;
+      font-family:'Courier New', Courier, monospace;
+      display:grid; place-items:center;
+      padding:20px;
       overflow:hidden;
     }
 
-    .wrap{position:relative; height:100%; display:grid; place-items:center; text-align:center;}
+    /* Ambient glow behind the terminal */
+    .glow{
+      position:fixed; border-radius:50%; filter:blur(90px); opacity:.14; pointer-events:none;
+    }
+    .glow.g1{width:420px;height:420px;background:radial-gradient(circle,var(--accent),transparent 65%);top:-8%;left:2%;animation:drift 14s ease-in-out infinite}
+    .glow.g2{width:340px;height:340px;background:radial-gradient(circle,var(--accent-dark),transparent 65%);bottom:-6%;right:4%;animation:drift 18s ease-in-out infinite reverse}
+    @keyframes drift{0%{transform:translate(0,0)}50%{transform:translate(20px,-26px)}100%{transform:translate(0,0)}}
 
-    .title{
-      font-size:min(14vw,110px); font-weight:800; margin:0;
+    /* ===== Terminal window ===== */
+    .term{
+      position:relative;
+      width:min(760px, 100%);
+      border:1px solid rgba(144,238,144,.35);
+      border-radius:12px;
+      background:rgba(255,255,255,.025);
+      box-shadow:0 18px 50px rgba(0,0,0,.75), 0 0 60px rgba(144,238,144,.06);
+      overflow:hidden;
+      opacity:0;
+      animation:rise .8s ease forwards;
+    }
+    @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    /* Focused programmatically only, to capture keystrokes. Never show a ring for it. */
+    .term:focus{outline:none}
+
+    .bar{
+      display:flex; align-items:center; gap:8px;
+      padding:10px 14px;
+      background:rgba(144,238,144,.07);
+      border-bottom:1px solid rgba(144,238,144,.2);
+      font-size:.8rem; color:#8f8f8f;
+    }
+    .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+    .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+    .bar .who{margin-left:8px;letter-spacing:.04em}
+
+    .body{padding:26px clamp(18px,4vw,34px) 30px}
+
+    .ps1{color:var(--accent)}
+    .path{color:#7fb2ff}
+    .prompt{font-size:clamp(14px,2.2vw,17px); color:var(--muted); margin:0 0 6px}
+
+    .cursor{
+      display:inline-block; width:9px; height:1.05em;
+      background:var(--accent); vertical-align:-2px; margin-left:2px;
+      animation:blink 1s step-end infinite;
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    /* Output block */
+    .out > *{opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s ease}
+    .out > *.on{opacity:1; transform:translateY(0)}
+
+    .greet{
+      margin:22px 0 2px;
+      font-size:clamp(24px,5.5vw,44px);
+      font-weight:800;
       color:var(--accent);
-      text-shadow: 0 0 22px rgba(144,238,144,.4);
-      opacity:0;
-      animation: fadeInUp 2s ease forwards;
+      text-shadow:0 0 22px rgba(144,238,144,.35);
+      min-height:1.2em;
+      letter-spacing:.02em;
     }
-    .subtitle{
-      font-size:clamp(20px,3.2vw,32px); color:#ddd; margin-top:20px;
-      opacity:0;
-      animation: fadeInUp 2s ease forwards;
-      animation-delay: 1.5s;
-    }
+    .greet .ghost{color:var(--accent-dark); opacity:.75}
 
-    .enter-btn{
-      margin-top:35px;
-      padding:14px 32px;
-      font-size:20px;
-      font-weight:600;
+    h1{
+      margin:6px 0 4px;
+      font-size:clamp(20px,4vw,32px);
+      color:var(--fg);
+      letter-spacing:.14em;
+      font-weight:800;
+    }
+    .sub{margin:2px 0 0; color:#b9f1b9; font-style:italic; font-size:clamp(13px,2.2vw,16px)}
+    .meta{margin:10px 0 0; color:var(--muted); font-size:clamp(12px,2vw,14px)}
+    .meta a{color:var(--accent); text-decoration:none}
+    .meta a:hover{text-decoration:underline}
+
+    .enter{
+      display:inline-block; margin-top:26px;
+      padding:12px 26px;
       border:2px solid var(--accent);
-      background:transparent;
-      color:var(--accent);
       border-radius:10px;
-      cursor:pointer;
-      transition:all .3s ease;
-      opacity:0;
-      animation: fadeInUp 2s ease forwards;
-      animation-delay: 2.5s;
-      font-family: "Courier New", Courier, monospace;
+      color:var(--accent);
+      background:transparent;
+      text-decoration:none;
+      font-weight:700;
+      font-size:clamp(15px,2.4vw,18px);
+      transition:background .25s ease, color .25s ease, box-shadow .25s ease, transform .2s ease;
     }
-    .enter-btn:hover{
-      background:var(--accent);
-      color:var(--bg);
-      box-shadow:0 0 20px rgba(144,238,144,.5);
+    .enter:hover{
+      background:var(--accent); color:var(--bg);
+      box-shadow:0 0 26px rgba(144,238,144,.45);
+      transform:translateY(-2px);
     }
+    .enter:focus-visible{outline:2px solid var(--accent-weak); outline-offset:3px}
 
-    /* Running marquee */
-    .marquee{
-      position:fixed; left:0; right:0; height:65px; overflow:hidden; white-space:nowrap;
-      display:flex; align-items:center; gap:22px;
-      background:rgba(144,238,144,0.05);
-      font-family: 'Courier New', Courier, monospace;
-    }
-    .marquee.top{ top:20px }
-    .marquee.bottom{ bottom:20px }
+    .hint{margin-top:14px; color:#6f6f6f; font-size:.78rem}
 
-    .track{ display:inline-block; animation: scroll 20s linear infinite; }
-    .marquee.rev .track{ animation-direction: reverse; }
-
-    .tag{
-      font-weight:800; text-transform:none; letter-spacing:.03em;
-      font-size: clamp(18px, 3vw, 28px);
-      color: var(--accent);
-      margin:0 18px;
+    @media (max-width:520px){
+      body{overflow:auto}
+      .body{padding:20px 16px 24px}
     }
 
-    @keyframes scroll{ from{ transform: translateX(0) } to{ transform: translateX(-50%) } }
-    @keyframes fadeInUp{ from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+    /* Respect users who don't want motion: show everything, no animation */
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation:none !important; transition:none !important}
+      .out > *{opacity:1 !important; transform:none !important}
+      .term{opacity:1}
+      .cursor{display:none}
+    }
   </style>
 </head>
 <body>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
 
-  <div class="marquee top">
-    <div class="track">
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
+  <main class="term" id="term" tabindex="-1">
+    <div class="bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="who">minh@portfolio · zsh</span>
     </div>
-    <div class="track" aria-hidden="true">
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
-      <span class="tag">Xin Chào.</span>
-    </div>
-  </div>
 
-  <main class="wrap">
-    <section class="center">
-      <h1 class="title">MINH TRUONG</h1>
-      <p class="subtitle">I am an achiever, explorer and a learner</p>
-      <a href="home.html"><button class="enter-btn">Explore</button></a>
-    </section>
+    <div class="body">
+      <p class="prompt">
+        <span class="ps1">minh@portfolio</span><span style="color:#666">:</span><span class="path">~</span><span style="color:#666">$</span>
+        <span id="cmd"></span><span class="cursor" id="cursor"></span>
+      </p>
+
+      <div class="out" id="out">
+        <p class="greet"><span id="greet">Hello</span></p>
+        <h1>MINH TRUONG</h1>
+        <p class="sub">I am an achiever, explorer and a learner</p>
+        <p class="meta">AI Operations Analyst @ <a href="coachwin.html">Coach.Win</a> · Omaha, NE</p>
+        <div><a class="enter" id="enter" href="home.html">[ Explore ]</a></div>
+        <p class="hint">press enter or click to continue</p>
+      </div>
+    </div>
   </main>
 
-  <div class="marquee bottom rev">
-    <div class="track">
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-    </div>
-    <div class="track" aria-hidden="true">
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-      <span class="tag">Welcome.</span>
-    </div>
-  </div>
+  <script>
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const greetings = ['Hello', 'Xin chào', 'Bonjour', 'Hola', 'Olá'];
+    const glyphs = '!<>-_\\/[]{}~=+*^?#01';
 
+    const cmdEl = document.getElementById('cmd');
+    const outEl = document.getElementById('out');
+    const greetEl = document.getElementById('greet');
+    const cursorEl = document.getElementById('cursor');
+    const enterEl = document.getElementById('enter');
+
+    // Enter key follows the Explore link. Listening on window (not document) so the
+    // key still registers if focus is sitting on the body rather than an element.
+    window.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      // If the link itself is focused the browser already activates it, so don't double-fire.
+      if (document.activeElement === enterEl) return;
+      window.location.href = 'home.html';
+    });
+
+    // ===== Scramble text effect =====
+    function scrambleTo(el, text) {
+      const from = el.textContent;
+      const len = Math.max(from.length, text.length);
+      const queue = [];
+      for (let i = 0; i < len; i++) {
+        const start = Math.floor(Math.random() * 22);
+        const end = start + Math.floor(Math.random() * 22) + 8;
+        queue.push({ from: from[i] || '', to: text[i] || '', start, end, char: '' });
+      }
+      let frame = 0;
+      return new Promise(resolve => {
+        (function tick() {
+          let output = '', done = 0;
+          for (const q of queue) {
+            if (frame >= q.end) { done++; output += q.to; }
+            else if (frame >= q.start) {
+              if (!q.char || Math.random() < 0.28) q.char = glyphs[Math.floor(Math.random() * glyphs.length)];
+              output += `<span class="ghost">${q.char}</span>`;
+            } else output += q.from;
+          }
+          el.innerHTML = output;
+          if (done === queue.length) return resolve();
+          frame++;
+          requestAnimationFrame(tick);
+        })();
+      });
+    }
+
+    // ===== Boot sequence =====
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    async function typeCmd(text) {
+      for (let i = 0; i <= text.length; i++) {
+        cmdEl.textContent = text.slice(0, i);
+        await sleep(70 + Math.random() * 60);
+      }
+    }
+
+    async function revealOutput() {
+      const items = [...outEl.children];
+      for (const item of items) {
+        item.classList.add('on');
+        await sleep(160);
+      }
+    }
+
+    async function cycleGreetings() {
+      let i = 0;
+      while (true) {
+        await sleep(2200);
+        i = (i + 1) % greetings.length;
+        await scrambleTo(greetEl, greetings[i]);
+      }
+    }
+
+    // Pull keyboard focus out of the browser chrome (the address bar keeps it when a
+    // page is opened from a link or the CLI) so Enter reaches the page. Focus the
+    // terminal container rather than the Explore link, so no focus ring is drawn.
+    // the link keeps its own ring for people actually tabbing to it.
+    function grabFocus() {
+      document.getElementById('term').focus({ preventScroll: true });
+    }
+
+    async function boot() {
+      if (reduced) {
+        cursorEl.style.display = 'none';
+        cmdEl.textContent = 'whoami';
+        grabFocus();
+        return;
+      }
+      await sleep(700);
+      await typeCmd('whoami');
+      await sleep(420);
+      cursorEl.style.display = 'none';
+      await revealOutput();
+      grabFocus();
+      cycleGreetings();
+    }
+
+    boot();
+  </script>
 </body>
 </html>
