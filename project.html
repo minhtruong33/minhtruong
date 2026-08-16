@@ -91,7 +91,8 @@
       z-index: 1;
     }
     .project-card {
-      display: block;
+      display: flex;
+      flex-direction: column;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(144,238,144,0.4);
       border-radius: 14px;
@@ -117,7 +118,10 @@
       color: var(--muted);
       line-height: 1.5;
       margin-bottom: 20px;
+      /* Absorb leftover height so every Explore button sits on the same line */
+      flex: 1 0 auto;
     }
+    .project-card .view-btn { align-self: center; }
     .view-btn {
       display: inline-block;
       padding: 10px 18px;
@@ -199,8 +203,7 @@
       <!-- Coach.Win -->
       <a href="coachwin.html" class="project-card">
         <h3>Coach.Win</h3>
-        <p>AI products built for business coaches. A go-to-market engine that runs prospecting, competitor tracking,
-        and content drafting, plus an AI value-driver report tool for corporate initiatives.</p>
+        <p>A go-to-market engine and an AI value-driver report tool.</p>
         <span class="view-btn">Explore</span>
       </a>
     </div>
